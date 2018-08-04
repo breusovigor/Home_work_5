@@ -16,11 +16,8 @@ $pdo = new PDO($dsn, $user, $pass, $opt);
 //1) Используя *PDO::quote* и *PDO::prepare + PDO::execute* выбрать всех студентов и вывести их на экран. *В чем разница?*
 $sqlSelect = "SELECT * FROM student";
 //используем метод quote
-$columnName = $pdo->quote('name');
-$columnAge = $pdo->quote('age');
-$columnUniversityId = $pdo->quote('university_id');
-$sqlQuote =  "SELECT $columnName, $columnAge, $columnUniversityId FROM student";
-$resultQuote = $pdo->query($sqlQuote);
+$id = 1;
+$resultQuote = $pdo->query('SELECT * FROM student WHERE id = ' . $pdo->quote($id));
 print_r($resultQuote->fetchAll());
 
 //используем prepare и execute
@@ -29,9 +26,16 @@ $resultSelect->execute(array());
 print_r($resultSelect->fetchAll());
 
 //2) Используя *PDO* обновить первых двух студентов. Например: измените им возраст
-$sqlUpdate = $pdo->query("UPDATE `student` SET `age` = '27' WHERE `id` = '1' OR `id` = '2'");
+$sqlUpdate = $pdo->prepare("UPDATE student SET age = :age WHERE id = :idFirst OR id = :idSecond");
+$sqlUpdate->bindParam(':idFirst', $idFirst);
+$sqlUpdate->bindParam(':idSecond', $idSecond);
+$sqlUpdate->bindParam(':age', $age);
+$idFirst = 1;
+$idSecond = 2;
+$age = '26';
+$sqlUpdate->execute();
 
 //3) Используя *PDO* удалите одного из студентов
-$sqlDelete = $pdo->query("DELETE  FROM `student` WHERE `id` = '11'");
+$pdo->exec("DELETE  FROM `student` WHERE `id` = '11'");
 
 ?>
