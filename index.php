@@ -15,9 +15,10 @@ $pdo = new PDO($dsn, $user, $pass, $opt);
 
 //1) Используя *PDO::quote* и *PDO::prepare + PDO::execute* выбрать всех студентов и вывести их на экран. *В чем разница?*
 $sqlSelect = "SELECT * FROM student";
+
 //используем метод quote
 $id = 1;
-$resultQuote = $pdo->query('SELECT * FROM student WHERE id = ' . $pdo->quote($id));
+$resultQuote = $pdo->query("SELECT * FROM student WHERE id = " . $pdo->quote($id));
 print_r($resultQuote->fetchAll());
 
 //используем prepare и execute
