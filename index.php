@@ -17,8 +17,8 @@ $pdo = new PDO($dsn, $user, $pass, $opt);
 $sqlSelect = "SELECT * FROM student";
 
 //используем метод quote
-$id = 1;
-$resultQuote = $pdo->query("SELECT * FROM student WHERE id = " . $pdo->quote($id));
+$id = 0;
+$resultQuote = $pdo->query("SELECT * FROM student WHERE id > " . $pdo->quote($id));
 print_r($resultQuote->fetchAll());
 
 //используем prepare и execute
@@ -33,7 +33,7 @@ $sqlUpdate->bindParam(':idSecond', $idSecond);
 $sqlUpdate->bindParam(':age', $age);
 $idFirst = 1;
 $idSecond = 2;
-$age = '26';
+$age = '27';
 $sqlUpdate->execute();
 
 //3) Используя *PDO* удалите одного из студентов
